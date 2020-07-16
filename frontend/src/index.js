@@ -14,12 +14,17 @@ class Pages extends React.Component {
   }
 
   componentDidMount() {
-    axios.get("/randArr").then( (response) => {
-        console.log(response)
+    // axios.get("/randArr").then( (response) => {
+    //     console.log(response)
 
-        this.setState({arr: response.data})
-      } 
-    )
+    //     this.setState({arr: response.data})
+    //   } 
+    // )
+
+
+    axios.post("/user", {firstName: 'Fred', lastName: 'Flint'}).then((response) => {
+      console.log(response)
+    })
   }
 
   render() {

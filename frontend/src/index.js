@@ -13,7 +13,6 @@ import {
   Route
 } from 'react-router-dom'
 
-import { createBrowserHistory } from 'history';
 import axios from "axios"
 
 import * as serviceWorker from './serviceWorker';
@@ -28,7 +27,7 @@ class Page extends React.Component {
       <Router>
         <Switch>
           <Route exact path='/' component={Home} />
-          <Route exact path='/dashboard' component={Dashboard} />
+          <Route path='/dashboard' component={Dashboard} />
         </Switch>
       </Router>
     )
@@ -39,9 +38,14 @@ class Home extends React.Component {
   constructor(props) {
     super(props)
 
-    this.state = {text: ''}
+    this.state = {
+      username: '', 
+      password: ''
+    }
 
-    this.onChangeText = this.onChangeText.bind(this)
+    this.onChangeUsernameText = this.onChangeUsernameText.bind(this)
+    this.onChangePasswordText = this.onChangePasswordText.bind(this)
+
     this.onSubmit = this.onSubmit.bind(this)
   }
 
@@ -52,25 +56,26 @@ class Home extends React.Component {
     // )
 
     alert('we are at home')
-
-
-
-    // axios.post("/signin", {email: 'Fred', password: 'Flint'}).then((response) => {
-    //   console.log(response)
-
-    //   if (response.status === 200) {
-    //       let history = createBrowserHistory();
-    //       history.push("/dashboard")
-    //   }
-    // })
   }
 
-  onChangeText(event) {
-    this.setState({text: event.target.value})
+  onChangeUsernameText(event) {
+    this.setState({username: event.target.value})
+  }
+
+  onChangePasswordText(event) {
+    this.setState({password: event.target.value})
   }
 
   onSubmit(event) {
-    alert('Value submitted was: ' + this.state.text)
+    axios.post("/signin", {email: 'Fred', password: 'Flint'}).then((response) => {
+      console.log(response)
+
+      if (response.status === 200) {
+        alert('Sign in successfully')
+
+        this.props.history.push('/dashboard')
+      }
+    })
 
     event.preventDefault()
   }
@@ -79,8 +84,12 @@ class Home extends React.Component {
     return (
       <div>
         <form onSubmit={this.onSubmit}>
-          <label>Things to put</label>
-          <input type='text' value={this.state.text} onChange={this.onChangeText} />
+          <label>Username: </label>
+          <input type='text' value={this.state.username} onChange={this.onChangeUsernameText} />
+
+          <label>Password: </label>
+          <input type='password' value={this.state.password} onChange={this.onChangePasswordText} />
+
           <input type='submit' value='Submit' />
         </form>
       </div>

@@ -3,7 +3,7 @@ const express = require('express')
 // imported as documented from Firebase
 const firebase = require('firebase/app')
 require('firebase/auth')
-// const firebaseDatabase = require('firebase/database')
+// require('firebase/database')
 
 var bodyParser = require('body-parser')
 
@@ -12,6 +12,12 @@ const port = 9000
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+var firebaseConfig = {
+    
+};
+
+firebase.initializeApp(firebaseConfig)
 
 app.get("/", (req, res) => {
     // const firebaseConfig = {
@@ -46,12 +52,6 @@ app.get("/", (req, res) => {
 
 
 app.post("/signin", (req, res) => {
-    var firebaseConfig = {
-        
-    };
-    
-    firebase.initializeApp(firebaseConfig)
-
     console.log('Got body:', req.body);
 
     firebase.auth().signInWithEmailAndPassword('test@gmail.com', 'password').catch((error) => {

@@ -5,6 +5,8 @@ This is a todo app with a React frontend and Express.js backend. It uses the Fir
 This is used in conjunction with an [iOS todo app](https://github.com/muhdmirzamz/TodoApp) I'm working on. Both of these projects connect to the same Firebase database.
 
 
+### Changelog
+
 9 August 2020:
 - Login mechanism complete
 
@@ -23,7 +25,14 @@ This is used in conjunction with an [iOS todo app](https://github.com/muhdmirzam
 16 July 2020:
 - Initial commit
 
-Technologies used:
+### INSTALL
+This project requires that you setup your own Firebase database. Once done, you can continue with the installation.
+
+`npm install`  
+`npm start`
+
+
+### Technologies used:
 - React
 - Express.js
 - React routing

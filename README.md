@@ -4,6 +4,10 @@ This is a todo app with a React frontend and Express.js backend. It uses the Fir
 
 This is used in conjunction with an [iOS todo app](https://github.com/muhdmirzamz/TodoApp) I'm working on. Both of these projects connect to the same Firebase database.
 
+
+9 August 2020:
+- Login mechanism complete
+
 25 July 2020:
 - Login mechanism 90% complete
 - Removed history package

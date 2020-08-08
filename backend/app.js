@@ -54,7 +54,9 @@ app.get("/", (req, res) => {
 app.post("/signin", (req, res) => {
     console.log('Got body:', req.body);
 
-    firebase.auth().signInWithEmailAndPassword('test@gmail.com', 'password').catch((error) => {
+    // test@gmail.com
+    // password
+    firebase.auth().signInWithEmailAndPassword(req.body.email, req.body.password).catch((error) => {
         if (error) {
             console.log(error.message)
         }

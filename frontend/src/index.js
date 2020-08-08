@@ -67,7 +67,7 @@ class Home extends React.Component {
   }
 
   onSubmit(event) {
-    axios.post("/signin", {email: 'Fred', password: 'Flint'}).then((response) => {
+    axios.post("/signin", {email: this.state.username, password: this.state.password}).then((response) => {
       console.log(response)
 
       if (response.status === 200) {

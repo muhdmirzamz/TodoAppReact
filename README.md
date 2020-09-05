@@ -7,6 +7,12 @@ This is used in conjunction with an [iOS todo app](https://github.com/muhdmirzam
 
 ### Changelog
 
+5 September 2020:
+- Registration mechanism completed
+- You can add items to the database
+- You can retrieve items from the database
+- Fixed: Alerts and popups now work
+
 9 August 2020:
 - Login mechanism complete
 

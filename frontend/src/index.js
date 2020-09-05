@@ -4,13 +4,13 @@ import ReactDOM from 'react-dom';
 import './index.css';
 
 import Dashboard from './dashboard'
-
-// import App from './App';
+import Register from './register'
 
 import {
   BrowserRouter as Router,
   Switch,
-  Route
+  Route,
+  Link
 } from 'react-router-dom'
 
 import axios from "axios"
@@ -28,6 +28,7 @@ class Page extends React.Component {
         <Switch>
           <Route exact path='/' component={Home} />
           <Route path='/dashboard' component={Dashboard} />
+          <Route path='/register' component={Register} />
         </Switch>
       </Router>
     )
@@ -50,11 +51,6 @@ class Home extends React.Component {
   }
 
   componentDidMount() {
-    // axios.get("/signin").then( (response) => {
-    //     console.log(response)
-    //   } 
-    // )
-
     alert('we are at home')
   }
 
@@ -68,9 +64,9 @@ class Home extends React.Component {
 
   onSubmit(event) {
     axios.post("/signin", {email: this.state.username, password: this.state.password}).then((response) => {
-      console.log(response)
-
       if (response.status === 200) {
+        console.log(response)
+
         alert('Sign in successfully')
 
         this.props.history.push('/dashboard')
@@ -92,6 +88,7 @@ class Home extends React.Component {
 
           <input type='submit' value='Submit' />
         </form>
+        <Link to="/register">Register</Link>
       </div>
     );
   }

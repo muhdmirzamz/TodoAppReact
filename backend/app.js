@@ -3,7 +3,7 @@ const express = require('express')
 // imported as documented from Firebase
 const firebase = require('firebase/app')
 require('firebase/auth')
-// require('firebase/database')
+require('firebase/database')
 
 var bodyParser = require('body-parser')
 
@@ -20,39 +20,26 @@ var firebaseConfig = {
 firebase.initializeApp(firebaseConfig)
 
 app.get("/", (req, res) => {
-    // const firebaseConfig = {
-
-    // };
-    
-    // var defaultapp = firebase.initializeApp(firebaseConfig)
-
-    // console.log(defaultapp.name)
-
     res.send('Hello World')
 });
 
-// app.get("/register", (req, res) => {
-//     const firebaseConfig = {
-//     };
-    
-//     var defaultapp = firebase.initializeApp(firebaseConfig)
+app.post("/register", (req, res) => {
+    console.log('/register Got body:', req.body);
 
-//     console.log(defaultapp.name)
+    firebase.auth().createUserWithEmailAndPassword(req.body.email, req.body.password).catch((error) => {
+        var errorCode = error.code;
+        var errorMessage = error.message;
 
-//     firebase.auth().createUserWithEmailAndPassword("test@gmail.com", "password").catch((error) => {
-//         var errorCode = error.code;
-//         var errorMessage = error.message;
+        console.log(errorCode + " " + errorMessage)
+    })
 
-//         console.log(errorCode + " " + errorMessage)
-//     })
-
-//     res.send('Got a post')
-// })
+    res.send('Got a post')
+})
 
 
 
 app.post("/signin", (req, res) => {
-    console.log('Got body:', req.body);
+    console.log('/signin Got body:', req.body);
 
     // test@gmail.com
     // password
@@ -71,6 +58,34 @@ app.post("/signin", (req, res) => {
         } else {
           // No user is signed in.
         }
+    });
+})
+
+app.post("/addItem", (req, res) => {
+    console.log("Got body: " + req.body)
+
+    // might wanna add a check for valid user here
+    var user = firebase.auth().currentUser
+
+    var database = firebase.database();
+
+    database.ref().child(user.uid).push().set({
+        todoItem: req.body.item
+    });
+
+    res.sendStatus(200)
+})
+
+app.get("/getItems", (req, res) => {
+    console.log("getting items")
+
+    var userId = firebase.auth().currentUser.uid;
+    
+    firebase.database().ref(userId).once('value').then(function(snapshot) {
+        console.log("Got items")
+        console.log(snapshot.val())
+
+        res.send(snapshot.val())
     });
 })
 

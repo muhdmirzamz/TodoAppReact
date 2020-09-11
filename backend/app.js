@@ -14,7 +14,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 var firebaseConfig = {
-    
+
 };
 
 firebase.initializeApp(firebaseConfig)
@@ -69,11 +69,16 @@ app.post("/addItem", (req, res) => {
 
     var database = firebase.database();
 
-    database.ref().child(user.uid).push().set({
+    // get the new key
+    const newItemRef = database.ref().child(user.uid).push()
+
+    // set the new item
+    newItemRef.set({
         todoItem: req.body.item
     });
 
-    res.sendStatus(200)
+    // push the new key so that frontend will be able to append to new object
+    res.status(200).send(newItemRef.path.pieces_[1])
 })
 
 app.get("/getItems", (req, res) => {

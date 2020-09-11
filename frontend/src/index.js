@@ -69,6 +69,7 @@ class Home extends React.Component {
 
         alert('Sign in successfully')
 
+        // https://stackoverflow.com/a/53916596
         this.props.history.push('/dashboard')
       }
     })

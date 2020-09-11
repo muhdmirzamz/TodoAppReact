@@ -6,6 +6,8 @@ This is used in conjunction with an [iOS todo app](https://github.com/muhdmirzam
 
 
 ### Changelog
+12 September 2020:
+- You can add items to the list and the list will update
 
 5 September 2020:
 - Registration mechanism completed

@@ -29,6 +29,8 @@ class Register extends React.Component {
                 console.log(response)
 
                 alert('Registered successfully')
+
+                this.props.history.push('/')
             } else {
                 alert('Oops something went wrong!')
             }

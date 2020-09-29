@@ -11,6 +11,7 @@ class Dashboard extends React.Component {
 
     this.onChangeTodoFieldText = this.onChangeTodoFieldText.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
+    this.onDelete = this.onDelete.bind(this)
 
     console.log("performing get request")
   }
@@ -23,10 +24,6 @@ class Dashboard extends React.Component {
         console.log(response.data)
 
         this.setState({todos: response.data})
-
-        Object.keys(this.state.todos).map((keys) => {
-          console.log(this.state.todos[keys].todoItem)
-        })
       } else {
         console.log("response is not 200")
       }
@@ -65,6 +62,27 @@ class Dashboard extends React.Component {
     event.preventDefault()
   }
 
+  onDelete(key) {
+    alert("Deleted: " + key)
+
+    var obj = this.state.todos
+    delete obj[key]
+    this.setState({todos: obj})
+
+
+    // needs to specify an extra 'params' key
+    // read the whole issue/thread
+    // https://github.com/axios/axios/issues/736
+    // https://github.com/axios/axios/issues/736#issuecomment-307209067
+    axios.delete("/deleteItem", {params: {item: key}}).then((response) => {
+      console.log("Add items status: " + response.status)
+
+      if (response.status === 200) {
+        console.log(response.data)
+      }
+    })
+  }
+
   render() {
     return(
       <div>
@@ -78,12 +96,29 @@ class Dashboard extends React.Component {
           <ul>
             {
               Object.keys(this.state.todos).map((key) => {
-                return <li key={key}>{this.state.todos[key].todoItem}</li>
+                // using a sub component to avoid re-render
+                // https://stackoverflow.com/a/29810951
+                return <ListItem key={key} itemKey={key} deleteFunction={this.onDelete} value={this.state.todos[key].todoItem} />
               })
             }
           </ul>
       </div>
     )
+  }
+}
+
+class ListItem extends React.Component {
+
+  constructor(props) {
+    super(props)
+  }
+
+  render() {
+
+    // https://stackoverflow.com/questions/39226757/react-passing-parameter-with-arrow-function-in-child-component
+    // you are not passing down the argument through the prop itself
+    // you are passing down the function signature through the props
+    return <li onClick={() => this.props.deleteFunction(this.props.itemKey)}>{this.props.value}</li>
   }
 }
 

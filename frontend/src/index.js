@@ -40,8 +40,8 @@ class Home extends React.Component {
     super(props)
 
     this.state = {
-      username: '', 
-      password: ''
+      username: 'test@gmail.com', 
+      password: 'password'
     }
 
     this.onChangeUsernameText = this.onChangeUsernameText.bind(this)

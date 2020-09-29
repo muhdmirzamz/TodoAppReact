@@ -14,7 +14,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 var firebaseConfig = {
-
+    
 };
 
 firebase.initializeApp(firebaseConfig)
@@ -92,6 +92,23 @@ app.get("/getItems", (req, res) => {
 
         res.send(snapshot.val())
     });
+})
+
+app.delete("/deleteItem", (req, res) => {
+    console.log("Got body: ")
+
+    // https://github.com/axios/axios/issues/736#issuecomment-307209067
+    console.log(req.query.item)
+
+    // might wanna add a check for valid user here
+    var user = firebase.auth().currentUser
+
+    var database = firebase.database();
+
+    // get the new key
+    const newItemRef = database.ref().child(user.uid).child(req.query.item).remove()
+
+    res.send('Got a DELETE')
 })
 
 app.listen(port, () => console.log("App listening at https://localhost:${port}"))

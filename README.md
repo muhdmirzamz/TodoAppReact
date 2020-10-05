@@ -6,6 +6,9 @@ This is used in conjunction with an [iOS todo app](https://github.com/muhdmirzam
 
 
 ### Changelog
+5 October 2020:
+- Added a delete button
+
 29 September 2020:
 - Register page redirects to Login page after successful operation
 - You can now delete an item by clicking on the item

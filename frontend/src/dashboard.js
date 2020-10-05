@@ -66,7 +66,7 @@ class Dashboard extends React.Component {
     alert("Deleted: " + key)
 
     var obj = this.state.todos
-    delete obj[key]
+    delete obj[key] // delete a key from an object
     this.setState({todos: obj})
 
 
@@ -117,8 +117,13 @@ class ListItem extends React.Component {
 
     // https://stackoverflow.com/questions/39226757/react-passing-parameter-with-arrow-function-in-child-component
     // you are not passing down the argument through the prop itself
-    // you are passing down the function signature through the props
-    return <li onClick={() => this.props.deleteFunction(this.props.itemKey)}>{this.props.value}</li>
+    // you are passing down the function and the argument as the prop
+    return (
+      <div>
+        <li>{this.props.value}</li>
+        <button onClick={() => this.props.deleteFunction(this.props.itemKey)}>Delete</button>
+      </div>
+    )
   }
 }
 

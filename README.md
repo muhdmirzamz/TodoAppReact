@@ -6,6 +6,9 @@ This is used in conjunction with an [iOS todo app](https://github.com/muhdmirzam
 
 
 ### Changelog
+5 February 2020:
+- Updated dependency versions
+
 5 October 2020:
 - Added a delete button
 

@@ -4,6 +4,7 @@ A todo app with a React frontend and Express.js backend. It uses the Firebase re
 
 This is used in conjunction with an [iOS todo app](https://github.com/muhdmirzamz/TodoApp) I'm working on. Both of these projects connect to the same Firebase database.
 
+Note: If you want to run this project, you need your own config file from Firebase.
 
 ### Changelog
 5 February 2020:

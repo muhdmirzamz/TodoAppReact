@@ -51,7 +51,11 @@ class Home extends React.Component {
   }
 
   componentDidMount() {
-    
+    axios.get("/check").catch((error) => {
+      if (error) {
+          alert(error.response.data)
+      }
+    })
   }
 
   onChangeEmailText(event) {
@@ -63,7 +67,13 @@ class Home extends React.Component {
   }
 
   onSubmit(event) {
+    // axios.get("/test").then((response) => {
+    //   console.log(response)
+    // })
+
     axios.post("/signin", {email: this.state.email, password: this.state.password}).then((response) => {
+      console.log(response)
+
       if (response.status === 200) {
         console.log(response)
 
@@ -72,7 +82,14 @@ class Home extends React.Component {
         // https://stackoverflow.com/a/53916596
         this.props.history.push('/dashboard')
       }
-    })
+    }).catch((error) => {
+      if (error) {
+          console.log(error)
+          console.log(error.message)
+          console.log(error.response)
+          
+      }
+  })
 
     event.preventDefault()
   }

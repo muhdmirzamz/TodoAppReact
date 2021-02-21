@@ -7,7 +7,10 @@ This is used in conjunction with an [iOS todo app](https://github.com/muhdmirzam
 
 
 ### Changelog
-5 February 2020:
+22 February 2021:
+- Added a GET request to check for missing API key
+
+5 February 2021:
 - Updated dependency versions
 
 5 October 2020:

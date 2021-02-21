@@ -19,8 +19,16 @@ var firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig)
 
-app.get("/", (req, res) => {
+
+app.get("/test", (req, res) => {
     res.send('Hello World')
+});
+
+app.get("/check", (req, res) => {
+    if (Object.keys(firebaseConfig).length === 0) {
+        // this appears in the client's catch block
+        res.status(500).send('Dont forget your API key');
+    }
 });
 
 app.post("/register", (req, res) => {
@@ -41,13 +49,12 @@ app.post("/register", (req, res) => {
 app.post("/signin", (req, res) => {
     console.log('/signin Got body:', req.body);
 
-    // test@gmail.com
-    // password
     firebase.auth().signInWithEmailAndPassword(req.body.email, req.body.password).catch((error) => {
         if (error) {
             console.log(error.message)
         }
     })
+
 
     firebase.auth().onAuthStateChanged((user) => {
         if (user) {

@@ -7,6 +7,10 @@ This is used in conjunction with an [iOS todo app](https://github.com/muhdmirzam
 
 
 ### Changelog
+
+23 February 2021:
+- Users can now sign out
+
 22 February 2021:
 - Added a GET request to check for missing API key
 

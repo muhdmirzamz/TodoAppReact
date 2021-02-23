@@ -104,7 +104,7 @@ class Home extends React.Component {
           <label>Password: </label>
           <input type='password' value={this.state.password} onChange={this.onChangePasswordText} />
 
-          <input type='submit' value='Submit' />
+          <input type='submit' value='Sign in' />
         </form>
         <Link to="/register">Register</Link>
       </div>

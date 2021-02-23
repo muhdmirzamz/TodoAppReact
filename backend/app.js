@@ -14,7 +14,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 var firebaseConfig = {
-  
+    
 };
 
 firebase.initializeApp(firebaseConfig)
@@ -118,4 +118,15 @@ app.delete("/deleteItem", (req, res) => {
     res.send('Got a DELETE')
 })
 
-app.listen(port, () => console.log("App listening at https://localhost:${port}"))
+app.get("/signout", (req, res) => {
+    firebase.auth().signOut().then(() => {
+        // Sign-out successful.
+        console.log("Sign out successful")
+
+        res.send('SUCCESS')
+    }).catch((error) => {
+        // An error happened.
+    });
+})
+
+app.listen(port, () => console.log("App listening at https://localhost:${" + port + "}"))

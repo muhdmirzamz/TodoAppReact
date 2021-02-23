@@ -11,8 +11,7 @@ class Dashboard extends React.Component {
     this.onChangeTodoFieldText = this.onChangeTodoFieldText.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
     this.onDelete = this.onDelete.bind(this)
-
-    console.log("performing get request")
+    this.onSignout = this.onSignout.bind(this)
   }
 
   componentDidMount() {
@@ -82,6 +81,18 @@ class Dashboard extends React.Component {
     })
   }
 
+  onSignout(event) {
+    axios.get("/signout").then((response) => {
+      if (response.status === 200) {
+        console.log(response.data)
+
+        alert('Sign out successfully')
+
+        this.props.history.push('/')
+      }
+    })
+  }
+
   render() {
     return(
       <div>
@@ -101,6 +112,8 @@ class Dashboard extends React.Component {
               })
             }
           </ul>
+
+          <input type='button' onClick={this.onSignout} value='Sign out' />
       </div>
     )
   }

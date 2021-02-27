@@ -8,6 +8,11 @@ This is used in conjunction with an [iOS todo app](https://github.com/muhdmirzam
 
 ### Changelog
 
+28 February 2021:
+- You can now create lists
+- Fetching lists is done
+- Changed database structure
+
 23 February 2021:
 - Users can now sign out
 

@@ -68,7 +68,7 @@ app.post("/signin", (req, res) => {
     });
 })
 
-app.post("/addItem", (req, res) => {
+app.post("/addList", (req, res) => {
     console.log("Got body: " + req.body)
 
     // might wanna add a check for valid user here
@@ -77,18 +77,18 @@ app.post("/addItem", (req, res) => {
     var database = firebase.database();
 
     // get the new key
-    const newItemRef = database.ref().child(user.uid).push()
+    const newItemRef = database.ref().child("lists").child(user.uid).push()
 
     // set the new item
     newItemRef.set({
-        todoItem: req.body.item
+        listName: req.body.item
     });
 
     // push the new key so that frontend will be able to append to new object
     res.status(200).send(newItemRef.path.pieces_[1])
 })
 
-app.get("/getItems", (req, res) => {
+app.get("/getLists", (req, res) => {
     console.log("getting items")
 
     var userId = firebase.auth().currentUser.uid;

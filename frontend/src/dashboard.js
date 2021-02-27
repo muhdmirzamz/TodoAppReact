@@ -6,42 +6,42 @@ class Dashboard extends React.Component {
   constructor(props) {
     super(props)
 
-    this.state = {todoFieldText: '', todos: {}}
+    this.state = {listFieldText: '', todoFieldText: '', lists: {}, todos: {}}
 
-    this.onChangeTodoFieldText = this.onChangeTodoFieldText.bind(this)
+    this.onChangelistFieldText = this.onChangelistFieldText.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
     this.onDelete = this.onDelete.bind(this)
     this.onSignout = this.onSignout.bind(this)
   }
 
   componentDidMount() {
-    axios.get("/getItems").then((response) => {
-      console.log("Get items status: " + response.status)
+    // axios.get("/getItems").then((response) => {
+    //   console.log("Get items status: " + response.status)
 
-      if (response.status === 200) {
-        console.log(response.data)
+    //   if (response.status === 200) {
+    //     console.log(response.data)
 
-        this.setState({todos: response.data})
-      } else {
-        console.log("response is not 200")
-      }
-    })
+    //     this.setState({todos: response.data})
+    //   } else {
+    //     console.log("response is not 200")
+    //   }
+    // })
   }
 
-  onChangeTodoFieldText(event) {
-    this.setState({todoFieldText: event.target.value})
+  onChangelistFieldText(event) {
+    this.setState({listFieldText: event.target.value})
   }
 
   onSubmit(event) {
-    axios.post("/addItem", {item: this.state.todoFieldText}).then((response) => {
+    axios.post("/addList", {item: this.state.listFieldText}).then((response) => {
       console.log("Add items status: " + response.status)
 
       if (response.status === 200) {
         // new key is in response.data
         alert(response.data)
 
-        var newTodos = this.state.todos
-        newTodos[response.data] = {todoItem: this.state.todoFieldText}
+        var newLists = {...this.state.lists}
+        newLists[response.data] = {listName: this.state.listFieldText}
 
         // spread operator syntax to copy an object and add an item to it
         // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax
@@ -51,7 +51,7 @@ class Dashboard extends React.Component {
         //   [response.data]: {todoItem: this.state.todoFieldText}
         // }
 
-        this.setState({todos: newTodos, todoFieldText: ''})
+        this.setState({lists: newLists, listFieldText: ''})
       } else {
         alert("Oops something went wrong!")
       }
@@ -97,18 +97,18 @@ class Dashboard extends React.Component {
     return(
       <div>
           <form onSubmit={this.onSubmit}>
-            <label>Add todo item: </label>
-            <input type='text' value={this.state.todoFieldText} onChange={this.onChangeTodoFieldText} />
+            <label>Add list: </label>
+            <input type='text' value={this.state.listFieldText} onChange={this.onChangelistFieldText} />
 
             <input type='submit' value='Submit' />
           </form>
 
           <ul>
             {
-              Object.keys(this.state.todos).map((key) => {
+              Object.keys(this.state.lists).map((key) => {
                 // using a sub component to avoid re-render
                 // https://stackoverflow.com/a/29810951
-                return <ListItem key={key} itemKey={key} deleteFunction={this.onDelete} value={this.state.todos[key].todoItem} />
+                return <ListItem key={key} itemKey={key} deleteFunction={this.onDelete} value={this.state.lists[key].listName} />
               })
             }
           </ul>

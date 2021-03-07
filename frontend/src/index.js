@@ -72,8 +72,6 @@ class Home extends React.Component {
     // })
 
     axios.post("/signin", {email: this.state.email, password: this.state.password}).then((response) => {
-      console.log(response)
-
       if (response.status === 200) {
         console.log(response)
 

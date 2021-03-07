@@ -88,17 +88,41 @@ app.post("/addList", (req, res) => {
     res.status(200).send(newItemRef.path.pieces_[1])
 })
 
+
+// you need to send over the userId
 app.get("/getLists", (req, res) => {
     console.log("getting items")
 
     var userId = firebase.auth().currentUser.uid;
     
-    firebase.database().ref(userId).once('value').then(function(snapshot) {
+    firebase.database().ref("lists/" + userId).once('value').then(function(snapshot) {
         console.log("Got items")
         console.log(snapshot.val())
 
         res.send(snapshot.val())
     });
+})
+
+// you need to send over 2 properties:
+// listId
+// todoContent
+app.post("/addTodo", (req, res) => {
+    console.log("Got body: " + req.body)
+
+    var database = firebase.database();
+
+    var listId = req.body.listId
+
+    // get the new key
+    const newItemRef = database.ref().child("todos").child(listId).push()
+
+    // set the new item
+    newItemRef.set({
+        todoContent: req.body.item
+    });
+
+    // push the new key so that frontend will be able to append to new object
+    res.status(200).send(newItemRef.path.pieces_[1])
 })
 
 app.delete("/deleteItem", (req, res) => {

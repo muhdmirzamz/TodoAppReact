@@ -8,6 +8,9 @@ This is used in conjunction with an [iOS todo app](https://github.com/muhdmirzam
 
 ### Changelog
 
+7 March 2021:
+- There is now a user interface where you can select lists
+
 28 February 2021:
 - You can now create lists
 - Fetching lists is done

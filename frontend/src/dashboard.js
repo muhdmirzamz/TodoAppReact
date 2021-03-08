@@ -1,14 +1,16 @@
 import React from 'react'
 
 import axios from 'axios'
+import { format } from 'date-fns'
 
 class Dashboard extends React.Component {
   constructor(props) {
     super(props)
 
-    this.state = {listFieldText: '', todoFieldText: '', lists: {}, todos: {}, listId: ''}
+    this.state = {listFieldText: '', todoFieldText: '', lists: {}, todos: {}, selectedListId: ''}
 
-    this.onChangelistFieldText = this.onChangelistFieldText.bind(this)
+    this.onChangeListFieldText = this.onChangeListFieldText.bind(this)
+    this.onChangeTodoFieldText = this.onChangeTodoFieldText.bind(this)
     this.onClickListItem = this.onClickListItem.bind(this)
 
     this.onListSubmit = this.onListSubmit.bind(this)
@@ -29,7 +31,9 @@ class Dashboard extends React.Component {
         // set the list id to start off at the first element
         var id = Object.keys(response.data)[0]
 
-        this.setState({lists: response.data, listId: id})
+        console.log("Current list id: " + id)
+
+        this.setState({lists: response.data, selectedListId: id})
         // this.setState({todos: response.data})
       } else {
         console.log("response is not 200")
@@ -37,54 +41,39 @@ class Dashboard extends React.Component {
     })
   }
 
-  onChangelistFieldText(event) {
+  onChangeListFieldText(event) {
     this.setState({listFieldText: event.target.value})
   }
 
+  onChangeTodoFieldText(event) {
+    this.setState({todoFieldText: event.target.value})
+  }
+
   onClickListItem(event) {
+
+    // get the selected index
     var selectedIndex = document.getElementById("lists").selectedIndex;
 
     
+    // get the key at the selected index
     // our list has the key inside but it does not have a "property" attached to it 
     // it's just {kjvskjvnvla: listName: 'test'}
-    var keyAtSelectedIndex = Object.keys(this.state.lists)[selectedIndex]
-    var listName = this.state.lists[keyAtSelectedIndex].listName
 
-    // a way to get item at selected index in Javascript Objects
-    // Object.keys by iself produces an array of keys
-    var key = Object.keys(this.state.lists)[selectedIndex]
+    // var keyAtSelectedIndex = Object.keys(this.state.lists)[selectedIndex]
 
-    alert(key + " " + listName)
-  }
+    // get the listName from the list object (you are accessing an object's key)
+    
+    // var listName = this.state.lists[keyAtSelectedIndex].listName
 
-  onTodoSubmit(event) {
-    axios.post("/addTodo", {item: this.state.listFieldText}).then((response) => {
-      console.log("Add items status: " + response.status)
 
-      if (response.status === 200) {
-        // new key is in response.data
-        alert(response.data)
+    // selected index == selected key's index
+    var listId = Object.keys(this.state.lists)[selectedIndex]
 
-        var newLists = {...this.state.lists}
-        newLists[response.data] = {listName: this.state.listFieldText}
-
-        // spread operator syntax to copy an object and add an item to it
-        // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax
-
-        // const newTodos = {
-        //   ...this.state.todos,
-        //   [response.data]: {todoItem: this.state.todoFieldText}
-        // }
-
-        this.setState({lists: newLists, listFieldText: ''})
-      } else {
-        alert("Oops something went wrong!")
-      }
-    })
+    this.setState({selectedListId: listId})
   }
 
   onListSubmit(event) {
-    axios.post("/addList", {item: this.state.listFieldText}).then((response) => {
+    axios.post("/addList", {listName: this.state.listFieldText}).then((response) => {
       console.log("Add items status: " + response.status)
 
       if (response.status === 200) {
@@ -110,6 +99,39 @@ class Dashboard extends React.Component {
 
     event.preventDefault()
   }
+
+
+  onTodoSubmit(event) {
+    var timestamp = format(new Date(), 'yyyy-MM-dd HH:mm:ss.sss')
+
+    axios.post("/addTodo", {todoItem: this.state.todoFieldText, listId: this.state.selectedListId, timestamp: timestamp}).then((response) => {
+      console.log("Add items status: " + response.status)
+
+      if (response.status === 200) {
+        // new key is in response.data
+        // alert(response.data)
+
+        // var newLists = {...this.state.lists}
+        // newLists[response.data] = {listName: this.state.listFieldText}
+
+        // spread operator syntax to copy an object and add an item to it
+        // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax
+
+        // const newTodos = {
+        //   ...this.state.todos,
+        //   [response.data]: {todoItem: this.state.todoFieldText}
+        // }
+
+        // this.setState({lists: newLists, listFieldText: ''})
+      } else {
+        alert("Oops something went wrong!")
+      }
+    })
+
+    event.preventDefault()
+  }
+
+  
 
   onDelete(key) {
     alert("Deleted: " + key)
@@ -147,13 +169,16 @@ class Dashboard extends React.Component {
   render() {
     return(
       <div>
+        {/* Add list */}
           <form onSubmit={this.onListSubmit}>
             <label>Add list: </label>
-            <input type='text' value={this.state.listFieldText} onChange={this.onChangelistFieldText} />
+            <input type='text' value={this.state.listFieldText} onChange={this.onChangeListFieldText} />
 
             <input type='submit' value='Submit' />
           </form>
 
+
+          {/* display list */}
           Lists:
           <ul>
             {
@@ -165,6 +190,7 @@ class Dashboard extends React.Component {
             }
           </ul>
 
+          {/* Choose list */}
           <label htmlFor="lists">Choose a list:</label>
 
           <select name="lists" id="lists" onChange={this.onClickListItem}>
@@ -176,9 +202,11 @@ class Dashboard extends React.Component {
           </select>
 
 
+
+          {/* Add todo */}
           <form onSubmit={this.onTodoSubmit}>
             <label>Add todo: </label>
-            <input type='text' value={this.state.listFieldText} onChange={this.onChangelistFieldText} />
+            <input type='text' value={this.state.todoFieldText} onChange={this.onChangeTodoFieldText} />
 
             <input type='submit' value='Submit' />
           </form>

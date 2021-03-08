@@ -8,6 +8,10 @@ This is used in conjunction with an [iOS todo app](https://github.com/muhdmirzam
 
 ### Changelog
 
+8 March 2021:
+- You can now create new lists
+- You can now add to different lists
+
 7 March 2021:
 - There is now a user interface where you can select lists
 

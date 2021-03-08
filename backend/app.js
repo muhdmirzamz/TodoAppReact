@@ -5,13 +5,16 @@ const firebase = require('firebase/app')
 require('firebase/auth')
 require('firebase/database')
 
-var bodyParser = require('body-parser')
+// var bodyParser = require('body-parser')
 
 const app = express()
+
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
 const port = 9000
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+
 
 var firebaseConfig = {
     
@@ -81,7 +84,7 @@ app.post("/addList", (req, res) => {
 
     // set the new item
     newItemRef.set({
-        listName: req.body.item
+        listName: req.body.listName
     });
 
     // push the new key so that frontend will be able to append to new object
@@ -105,24 +108,27 @@ app.get("/getLists", (req, res) => {
 
 // you need to send over 2 properties:
 // listId
-// todoContent
+// todoItem
 app.post("/addTodo", (req, res) => {
-    console.log("Got body: " + req.body)
+    console.log("ADD TODO==== Got body: " + req.body)
 
     var database = firebase.database();
 
     var listId = req.body.listId
+    var timestamp = req.body.timestamp
 
     // get the new key
     const newItemRef = database.ref().child("todos").child(listId).push()
 
     // set the new item
     newItemRef.set({
-        todoContent: req.body.item
+        todoItem: req.body.todoItem,
+        timestamp: timestamp
     });
 
     // push the new key so that frontend will be able to append to new object
     res.status(200).send(newItemRef.path.pieces_[1])
+    res.status(200)
 })
 
 app.delete("/deleteItem", (req, res) => {

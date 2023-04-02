@@ -1,5 +1,8 @@
 ### Changelog
 
+2 April 2023:
+- You can now get todos after selecting the dropdown beside "Choose a list"
+
 8 March 2021:
 - You can now create new lists
 - You can now add to different lists

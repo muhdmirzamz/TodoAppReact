@@ -7,7 +7,13 @@ class Dashboard extends React.Component {
   constructor(props) {
     super(props)
 
-    this.state = {listFieldText: '', todoFieldText: '', lists: {}, todos: {}, selectedListId: ''}
+    this.state = {
+      listFieldText: '', 
+      todoFieldText: '', 
+      lists: {}, 
+      todos: {}, 
+      selectedListId: ''
+    }
 
     this.onChangeListFieldText = this.onChangeListFieldText.bind(this)
     this.onChangeTodoFieldText = this.onChangeTodoFieldText.bind(this)
@@ -26,11 +32,11 @@ class Dashboard extends React.Component {
       console.log("Get items status: " + response.status)
 
       if (response.status === 200) {
-        console.log(response.data)
+        // returns as an object that is made up of a list of key + value (value being an object)
+        console.log(`lists: ${response.data}`)
 
         // set the list id to start off at the first element
         var id = Object.keys(response.data)[0]
-
         console.log("Current list id: " + id)
 
         this.setState({lists: response.data, selectedListId: id})
@@ -70,6 +76,41 @@ class Dashboard extends React.Component {
     var listId = Object.keys(this.state.lists)[selectedIndex]
 
     this.setState({selectedListId: listId})
+
+
+    axios.get(`/getTodos`, {
+      params: {
+        listId: listId
+      }
+    }).then(response => {
+      if (response.status === 200) {
+        console.log(response.data)
+
+        // returns as an object that is made up of a list of key + value (value being an object)
+        console.log(`todos: ${JSON.stringify(response.data)}`)
+
+        this.setState({todos: response.data})
+        // this.setState({todos: response.data})
+
+
+
+        // var newLists = {...this.state.lists}
+        // newLists[response.data] = {listName: this.state.listFieldText}
+
+        // spread operator syntax to copy an object and add an item to it
+        // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax
+
+        // const newTodos = {
+        //   ...this.state.todos,
+        //   [response.data]: {todoItem: this.state.todoFieldText}
+        // }
+
+        // this.setState({lists: newLists, listFieldText: ''})
+      } else {
+        alert("Oops something went wrong!")
+      }
+    })
+
   }
 
   onListSubmit(event) {
@@ -222,6 +263,16 @@ class Dashboard extends React.Component {
               })
             }
           </ul> */}
+
+          <ul>
+            {
+              Object.keys(this.state.todos).map((key) => {
+                // using a sub component to avoid re-render
+                // https://stackoverflow.com/a/29810951
+                return <ListItem key={key} itemKey={key} deleteFunction={this.onDelete} value={this.state.todos[key].todoItem} />
+              })
+            }
+          </ul>
 
           <input type='button' onClick={this.onSignout} value='Sign out' />
       </div>

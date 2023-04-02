@@ -94,12 +94,28 @@ app.post("/addList", (req, res) => {
 
 // you need to send over the userId
 app.get("/getLists", (req, res) => {
-    console.log("getting items")
+    console.log("getting lists")
 
     var userId = firebase.auth().currentUser.uid;
     
     firebase.database().ref("lists/" + userId).once('value').then(function(snapshot) {
-        console.log("Got items")
+        console.log("Got lists")
+        console.log(snapshot.val())
+
+        res.send(snapshot.val())
+    });
+})
+
+// you need to send over the listId
+app.get("/getTodos", (req, res) => {
+    console.log("getting todos")
+
+    //let listId = firebase.auth().currentUser.uid;
+    
+    let listId = req.query.listId
+
+    firebase.database().ref("todos/" + listId).once('value').then(function(snapshot) {
+        console.log("Got todos")
         console.log(snapshot.val())
 
         res.send(snapshot.val())

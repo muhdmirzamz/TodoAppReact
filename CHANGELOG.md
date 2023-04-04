@@ -1,5 +1,8 @@
 ### Changelog
 
+4 April 2023:
+- You can now get the todos for the first todo list on initial load 
+
 2 April 2023:
 - You can now get todos after selecting the dropdown beside "Choose a list"
 

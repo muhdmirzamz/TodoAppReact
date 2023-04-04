@@ -32,15 +32,56 @@ class Dashboard extends React.Component {
       console.log("Get items status: " + response.status)
 
       if (response.status === 200) {
-        // returns as an object that is made up of a list of key + value (value being an object)
+        // returns as an object that is made up of a list of key (key is the list id) + value (value is the list name - being an object)
         console.log(`lists: ${response.data}`)
 
-        // set the list id to start off at the first element
-        var id = Object.keys(response.data)[0]
-        console.log("Current list id: " + id)
+        let todoListIds = Object.keys(response.data)         
 
-        this.setState({lists: response.data, selectedListId: id})
-        // this.setState({todos: response.data})
+        // just make sure we have something in the array
+        if (todoListIds.length > 0) {
+
+          // set the list id to start off at the first element
+          var id = todoListIds[0]
+          console.log("Current list id: " + id)
+
+          this.setState({lists: response.data, selectedListId: id})
+          // this.setState({todos: response.data})
+
+
+
+          axios.get(`/getTodos`, {
+            params: {
+              listId: id
+            }
+          }).then(response => {
+            if (response.status === 200) {
+              console.log(response.data)
+      
+              // returns as an object that is made up of a list of key + value (value being an object)
+              console.log(`todos: ${JSON.stringify(response.data)}`)
+      
+              this.setState({todos: response.data})
+              // this.setState({todos: response.data})
+      
+      
+      
+              // var newLists = {...this.state.lists}
+              // newLists[response.data] = {listName: this.state.listFieldText}
+      
+              // spread operator syntax to copy an object and add an item to it
+              // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax
+      
+              // const newTodos = {
+              //   ...this.state.todos,
+              //   [response.data]: {todoItem: this.state.todoFieldText}
+              // }
+      
+              // this.setState({lists: newLists, listFieldText: ''})
+            } else {
+              alert("Oops something went wrong!")
+            }
+          })
+        }
       } else {
         console.log("response is not 200")
       }

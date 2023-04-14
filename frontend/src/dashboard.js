@@ -45,7 +45,6 @@ class Dashboard extends React.Component {
           console.log("Current list id: " + id)
 
           this.setState({lists: response.data, selectedListId: id})
-          // this.setState({todos: response.data})
 
 
 
@@ -61,22 +60,7 @@ class Dashboard extends React.Component {
               console.log(`todos: ${JSON.stringify(response.data)}`)
       
               this.setState({todos: response.data})
-              // this.setState({todos: response.data})
-      
-      
-      
-              // var newLists = {...this.state.lists}
-              // newLists[response.data] = {listName: this.state.listFieldText}
-      
-              // spread operator syntax to copy an object and add an item to it
-              // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax
-      
-              // const newTodos = {
-              //   ...this.state.todos,
-              //   [response.data]: {todoItem: this.state.todoFieldText}
-              // }
-      
-              // this.setState({lists: newLists, listFieldText: ''})
+
             } else {
               alert("Oops something went wrong!")
             }
@@ -191,10 +175,13 @@ class Dashboard extends React.Component {
 
       if (response.status === 200) {
         // new key is in response.data
-        // alert(response.data)
+        alert(response.data)
 
-        // var newLists = {...this.state.lists}
-        // newLists[response.data] = {listName: this.state.listFieldText}
+        var newTodos = {...this.state.todos}
+        newTodos[response.data] = {timestamp: timestamp, todoItem: this.state.todoFieldText}
+
+
+        this.setState({todos: newTodos, todoFieldText: ''})
 
         // spread operator syntax to copy an object and add an item to it
         // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax

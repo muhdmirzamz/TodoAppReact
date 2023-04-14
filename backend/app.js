@@ -141,16 +141,19 @@ app.post("/addTodo", (req, res) => {
 
     // get the new key
     const newItemRef = database.ref().child("todos").child(listId).push()
+    var key = newItemRef.key
+    console.log(`key: ${key}`)
 
     // set the new item
-    newItemRef.set({
+    var newItem = {
         todoItem: req.body.todoItem,
         timestamp: timestamp
-    });
+    }
+
+    newItemRef.set(newItem);
 
     // push the new key so that frontend will be able to append to new object
-    res.status(200).send(newItemRef.path.pieces_[1])
-    res.status(200)
+    res.status(200).send(key) //newItemRef.path.pieces_[1]
 })
 
 app.delete("/deleteItem", (req, res) => {

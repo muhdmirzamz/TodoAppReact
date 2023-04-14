@@ -1,5 +1,8 @@
 ### Changelog
 
+14 April 2023:
+- The todos list now refreshes to the latest todos when you add a new todo to the list
+
 4 April 2023:
 - You can now get the todos for the first todo list on initial load 
 

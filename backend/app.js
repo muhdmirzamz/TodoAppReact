@@ -17,13 +17,13 @@ const port = 9000
 
 
 var firebaseConfig = {
-    apiKey: "AIzaSyCG6_Oh8dOzt21flBDelf0eh4sRq9Fuo1k",
-  authDomain: "todoapp-id.firebaseapp.com",
-  databaseURL: "https://todoapp-id.firebaseio.com",
-  projectId: "todoapp-id",
-  storageBucket: "todoapp-id.appspot.com",
-  messagingSenderId: "953077094877",
-  appId: "1:953077094877:web:3a4d99d569a2c4655dfe34"
+  apiKey: "",
+  authDomain: "",
+  databaseURL: "",
+  projectId: "",
+  storageBucket: "",
+  messagingSenderId: "",
+  appId: ""
 };
 
 firebase.initializeApp(firebaseConfig)
